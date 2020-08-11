@@ -1,5 +1,10 @@
 package org.seckill.service.impl;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.collections.MapUtils;
 import org.seckill.dao.SeckillDao;
 import org.seckill.dao.SuccessKilledDao;
@@ -20,11 +25,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  * Created by zhangyijun on 15/10/16.
  */
@@ -40,7 +40,7 @@ public class SeckillServiceImpl implements SeckillService {
     @Autowired
     private SuccessKilledDao successKilledDao;
 
-    @Autowired
+//    @Autowired
     private RedisDao redisDao;
 
     //md5盐值字符串,用于混淆MD5
@@ -168,4 +168,13 @@ public class SeckillServiceImpl implements SeckillService {
         }
 
     }
+
+	@Override
+	@Transactional
+	public void testTx() {
+		seckillDao.reduceNumber(1000, new Date());
+		successKilledDao.insertSuccessKilled(1000, 15925676776L);
+	}
+	
+	
 }

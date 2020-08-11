@@ -26,6 +26,16 @@ public class SeckillServiceTest {
 
     @Autowired
     private SeckillService seckillService;
+    
+    @Test
+    public void testTx() {
+    	try {
+    		seckillService.testTx();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	
+    }
 
     @Test
     public void testGetSeckillList() throws Exception {
