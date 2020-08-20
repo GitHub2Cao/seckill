@@ -1,7 +1,6 @@
-package org.seckill.test;
+package org.seckill.test.threadlocal;
 
 import com.alibaba.ttl.TtlRunnable;
-import org.seckill.test.threadlocal.TransmittableThreadLocalSelf;
 
 public class SimpleDemo {
     public static void main(String[] args) {
@@ -11,7 +10,15 @@ public class SimpleDemo {
         context.set("value-set-in-parent");
         System.out.println("get ---- " + context.get());
 
-        Runnable task = () -> System.out.println("get ---- " + context.get());
+        Runnable task = () -> {
+        	System.out.println("get ---- " + context.get());
+        	System.out.println(Thread.currentThread().getName());
+        	System.out.println(Thread.currentThread().getClass());
+        	
+        	
+        	
+        	
+        };
         // 额外的处理，生成修饰了的对象ttlRunnable
         Runnable ttlRunnable = TtlRunnable.get(task);
 
