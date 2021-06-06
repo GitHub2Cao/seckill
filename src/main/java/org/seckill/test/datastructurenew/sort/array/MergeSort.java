@@ -7,120 +7,96 @@ import java.util.Arrays;
  * @date 2021-04-12 12:21
  */
 public class MergeSort {
-	private static <T extends Comparable<? super T>> void merge(T[] a, T[] aux, int lo, int mid, int hi) {
-		int i = lo;
-		int j = mid;
-		for (int k = lo; k < hi; k++) {
-			aux[k] = a[k];
+	public static <T extends Comparable<? super T>> void mergeSort(T[] data) {
+		if (data == null || data.length == 1) {
+			return;
+		}
+		mergeSort(data, 0, data.length - 1);
+	}
+
+	public static <T extends Comparable<? super T>> void mergeSort(T[] data, int min, int max) {
+		if (min == max) {
+			return;
+		}
+		int pivot = (min + max) >> 1;
+		T[] temp = (T[]) new Comparable[data.length];
+		mergeSort(data, min, pivot);
+		mergeSort(data, pivot + 1, max);
+		merge(data, temp, min, pivot, max);
+	}
+
+	public static <T extends Comparable<? super T>> void mergeSortaa(T[] data) {
+		if (data == null || data.length == 1) {
+			return;
+		}
+		int lenght = data.length;
+		T[] temp = (T[]) new Comparable[lenght];
+		for (int sz = 1; sz < lenght; sz = sz + sz) {
+			for (int lo = 0; lo < lenght - sz; lo += sz + sz) {
+				merge(data, temp, lo, lo + sz - 1, Math.min(lo + sz + sz - 1, lenght - 1));
+			}
+		}
+	}
+
+	private static <T extends Comparable<? super T>> void merge(T[] data, T[] temp, int min, int pivot, int max) {
+		int size = max - min + 1;
+		int index;
+		for (index = 0; index < size; index++) {
+			temp[index] = data[min + index];
 		}
 
-		for (int k = lo; k < hi; k++) {
-			if (i == mid) {
-				a[k] = aux[j++];
-			} else if (j == hi) {
-				a[k] = aux[i++];
-			} else if (aux[j].compareTo(aux[i]) < 0) {
-				a[k] = aux[j++];
+		int left = 0;
+		int right = pivot - min + 1;
+		for (index = 0; index < size; index++) {
+			if (right <= max - min) {
+				if (left <= pivot - min) {
+					if (temp[left].compareTo(temp[right]) > 0) {
+						data[index + min] = temp[right++];
+					} else {
+						data[index + min] = temp[left++];
+					}
+				} else {
+					data[index + min] = temp[right++];
+				}
 			} else {
-				a[k] = aux[i++];
+				data[index + min] = temp[left++];
 			}
 		}
 	}
 
-
-
-	public static <T extends Comparable<? super T>> void mergeSortRecursion(T[] data) {
-		if (data == null || data.length == 1) {
-			return;
-		}
-		T[] aux = (T[]) new Comparable[data.length];
-		mergeSort(data, aux,0, data.length);
-	}
-
-	public static <T extends Comparable<? super T>> void mergeSortIteration(T[] data) {
-		if (data == null || data.length == 1) {
-			return;
-		}
-		int length = data.length;
-		T[] result = Arrays.copyOf(data, data.length);
-		for (int block = 1; block < length; block *= 2) {
-			for (int start = 0; start <length; start += block * 2) {
-				int low = start;
-				int mid = Math.min(start + block, length);
-				int high = Math.min(start + 2 * block, length);
-				int start1 = low;
-				int end1 = mid;
-				int start2 = mid;
-				int end2 = high;
-				while (start1 < end1 && start2 < end2) {
-					result[low++] = result[start1].compareTo(result[start2]) < 0 ? result[start1++] : result[start2++];
-				}
-				while(start1 < end1) {
-					result[low++] = result[start1++];
-				}
-				while(start2 < end2) {
-					result[low++] = result[start2++];
-				}
-				System.out.println(Arrays.deepToString(result));
+	private static <T extends Comparable<? super T>> void merge2(T[] data, T[] temp, int min, int pivot, int max) {
+		int mid = pivot + 1;
+		int third = min;
+		int tmp = min;
+		while (min <= pivot && mid <= max) {
+			if (data[min].compareTo(data[mid]) < 0) {
+				temp[third++] = data[min++];
+			} else {
+				temp[third++] = data[mid++];
 			}
 		}
-		data = Arrays.copyOf(result, result.length);
+		while (mid <= max) {
+			temp[third++] = data[mid++];
+		}
+		while (min <= pivot) {
+			temp[third++] = data[min++];
+		}
+		while (tmp <= max) {
+			data[tmp] = temp[tmp++];
+		}
 	}
 
-
-
-	private static <T extends Comparable<? super T>> void mergeSort(T[] data, T[] aux, int start, int end) {
-//		if (start >= end) {
-//			return;
-//		}
-		if (end - start <= 1) {
-			return;
-		}
-		int mid = (start + end) >> 1;
-		mergeSort(data, aux, start, mid);
-		mergeSort(data, aux, mid, end);
-		merge(data, aux, start, mid, end);
- 	}
-
-
-//	private static <T extends Comparable<? super T>> void merge(T[] data, int start, int mid, int end) {
-//		T[] temp = (T[]) new Comparable[end - start + 1];
-//		for (int i = start; i <= end; i++) {
-//			temp[i - start] = data[i];
-//		}
-//
-//		int leftPoint = 0;
-//		int rightPoint = mid + 1 - start;
-//		int point = start;
-//		while (leftPoint + start <= mid && rightPoint + start <= end) {
-//			if (temp[leftPoint].compareTo(temp[rightPoint]) > 0) {
-//				data[point++] = temp[rightPoint++];
-//			} else {
-//				data[point++] = temp[leftPoint++];
-//			}
-//		}
-//		if (leftPoint + start == mid + 1) {
-//			while (rightPoint + start <= end) {
-//				data[point++] = temp[rightPoint++];
-//			}
-//		}
-//		if (rightPoint + start == end + 1) {
-//			while (leftPoint + start <= mid) {
-//				data[point++] = temp[leftPoint++];
-//			}
-//		}
-//
-//		System.arraycopy(temp, 0, data, start, temp.length);
-//	}
 
 	public static void main(String[] args) {
 		Integer[] a = {4, 2, 1, 6, 3, 7, 9, 8, 5};
+		//mergeSortRecursion(a);
 
 		//Integer[] a = {1, 2, 4, 6, 3, 5, 7, 8, 9};
-
-		//merge(a, 0, a.length /2, a.length - 1);
-		mergeSortRecursion(a);
-		//mergeSortIteration(a);
+		//Integer[] a = {1};
+		//merge(a, 0, a.length / 2, a.length - 1);
+		//mergeSortRecursion(a);
+		//iteration(a);
+		mergeSort(a);
 		System.out.println(Arrays.deepToString(a));
 	}
 }

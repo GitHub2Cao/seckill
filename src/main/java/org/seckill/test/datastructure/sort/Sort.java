@@ -246,15 +246,9 @@ public class Sort {
 	}
 
 	private static <T extends Comparable<? super T>> int partition(T[] data, int start, int end) {
-		T partitionValue;
-		int left;
-		int right;
-		//int mid = (start + end) >> 1;
-		partitionValue = data[start];
-		//swap(data, mid, start);
-		left = start;
-		right = end;
-		System.out.println(Arrays.deepToString(data) + "---" + left + "---" + right);
+		T partitionValue = data[start];
+		int left = start;
+		int right = end;
 		while (left < right) {
 			while (left < right && data[left].compareTo(partitionValue) <= 0) {
 				left++;
@@ -267,13 +261,13 @@ public class Sort {
 			}
 		}
 		swap(data, start, right);
-		System.out.println(Arrays.deepToString(data) + "---" + left + "---" + right);
 		return right;
 	}
 
 	public static void main(String[] args) {
 		//Integer[] array = {1, 5, 2, 4, 10, 1000, 20, 100, 110};
-		Integer[] array = {8, 3, 10, 2, 7, 6, 9, 12, 13};
+		//Integer[] array = {8, 3, 10, 2, 7, 6, 9, 12, 13};
+		Integer[] array = {4, 2, 1, 6, 3, 7, 9, 8, 5};
 		//Integer[] array = {1};
 		//bubbleMax2MinSort(array);
 		//System.out.println(Arrays.deepToString(array));
