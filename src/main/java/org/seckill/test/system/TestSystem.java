@@ -17,6 +17,48 @@ public class TestSystem {
 						});
 
 		System.out.println(System.getProperty("sun.arch.data.model"));
+
+
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while (true) {
+					int i = 1;
+					i++;
+				}
+			}
+		}).start();
+
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while (true) {
+					int i = 1;
+					i++;
+				}
+			}
+		}).start();
+
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while (true) {
+					int i = 1;
+					i++;
+				}
+			}
+		}).start();
+
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				while (true) {
+					int i = 1;
+					i++;
+				}
+			}
+		}).start();
+
 	}
 
 
